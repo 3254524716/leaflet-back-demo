@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.payrollAccounting.dao.PayrollDao">
+    <!--  插入   -->
+    <insert id="batchImportPayInfo" parameterType="java.util.List">
+        insert into payrollaccount values
+        <foreach item="item" collection="list" separator=",">
+            (
+            #{item.name},
+            #{item.id},
+            #{item.date},
+            #{item.attendance},
+            #{item.rest},
+            #{item.overtime},
+            #{item.leavetime}
+            )
+        </foreach>
+    </insert>
+
+    <!-- 映射  -->
+    <resultMap id="BaseResultMap" type="com.example.payrollAccounting.entities.Payroll">
+        <id column="name" property="name" jdbcType="VARCHAR"/>
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <id column="date" property="date" jdbcType="VARCHAR"/>
+        <id column="attendance" property="attendance" jdbcType="INTEGER"/>
+        <id column="rest" property="rest" jdbcType="INTEGER"/>
+        <id column="overtime" property="overtime" jdbcType="INTEGER"/>
+        <id column="leavetime" property="leavetime" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!-- 查询所有   -->
+    <select id="getAllPayroll" resultMap="BaseResultMap">
+        select * from payrollaccount
+    </select>
+</mapper>

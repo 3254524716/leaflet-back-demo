@@ -1,0 +1,20 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: leaflet-back-demo
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource      #数据源
+    password: yangcautious.
+    url: jdbc:postgresql://localhost:5432/datatest?useUnicode=true&characterEncoding=GBK
+    username: postgres
+    driver-class-name: org.postgresql.Driver          #postgresql驱动
+  devtools:
+    restart:
+      enabled: true
+
+
+mybatis:
+  type-aliases-package: com.example.leaflet_back_demo.entity
+  mapper-locations: classpath:/mapper/*.xml

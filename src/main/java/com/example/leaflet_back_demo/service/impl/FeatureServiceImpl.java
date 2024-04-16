@@ -1,0 +1,19 @@
+package com.example.leaflet_back_demo.service.impl;
+
+import com.example.leaflet_back_demo.dao.FeatureDao;
+import com.example.leaflet_back_demo.entities.Feature;
+import com.example.leaflet_back_demo.service.FeatureService;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.ArrayList;
+
+@Service
+public class FeatureServiceImpl implements FeatureService {
+    @Resource
+    private FeatureDao featureDao;
+
+    public ArrayList<Feature> getFeaturesByField(String column, String value){
+        return featureDao.getFeaturesByField(column,value);
+    }
+}
