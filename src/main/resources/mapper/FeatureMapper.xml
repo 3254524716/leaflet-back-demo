@@ -20,26 +20,26 @@
     <!-- 映射  -->
     <resultMap id="BaseResultMap" type="com.example.leaflet_back_demo.entities.Feature">
         <id column="gid" property="gid" jdbcType="INTEGER"/>
-        <id column="featureid" property="featureid" jdbcType="INTEGER"/>
-        <id column="dkbh" property="dkbh" jdbcType="VARCHAR"/>
-        <id column="ydmj" property="ydmj" jdbcType="FLOAT"/>
-        <id column="ghyt" property="ghyt" jdbcType="VARCHAR"/>
-        <id column="ytdm" property="ytdm" jdbcType="VARCHAR"/>
-        <id column="hhbl" property="hhbl" jdbcType="VARCHAR"/>
-        <id column="jfbh" property="jfbh" jdbcType="VARCHAR"/>
-        <id column="ptss" property="ptss" jdbcType="VARCHAR"/>
-        <id column="jzgd" property="jzgd" jdbcType="FLOAT"/>
-        <id column="rjl" property="rjl" jdbcType="FLOAT"/>
-        <id column="jzmj" property="jzmj" jdbcType="FLOAT"/>
-        <id column="jzmd" property="jzmd" jdbcType="FLOAT"/>
-        <id column="ldl" property="ldl" jdbcType="FLOAT"/>
-        <id column="tcws" property="tcws" jdbcType="INTEGER"/>
-        <id column="remark" property="remark" jdbcType="VARCHAR"/>
-        <id column="ssgh" property="ssgh" jdbcType="INTEGER"/>
-        <id column="dkmj" property="dkmj" jdbcType="FLOAT"/>
-        <id column="jdccr" property="jdccr" jdbcType="VARCHAR"/>
-        <id column="jsdt" property="jsdt" jdbcType="VARCHAR"/>
-        <id column="geom_json" property="geom" jdbcType="VARCHAR"/>
+        <id column="featureid" property="FeatureID" jdbcType="INTEGER"/>
+        <id column="dkbh" property="DKBH" jdbcType="VARCHAR"/>
+        <id column="ydmj" property="YDMJ" jdbcType="FLOAT"/>
+        <id column="ghyt" property="GHYT" jdbcType="VARCHAR"/>
+        <id column="ytdm" property="YTDM" jdbcType="VARCHAR"/>
+        <id column="hhbl" property="HHBL" jdbcType="VARCHAR"/>
+        <id column="jfbh" property="JFBH" jdbcType="VARCHAR"/>
+        <id column="ptss" property="PTSS" jdbcType="VARCHAR"/>
+        <id column="jzgd" property="JZGD" jdbcType="FLOAT"/>
+        <id column="rjl" property="RJL" jdbcType="FLOAT"/>
+        <id column="jzmj" property="JZMJ" jdbcType="FLOAT"/>
+        <id column="jzmd" property="JZMD" jdbcType="FLOAT"/>
+        <id column="ldl" property="LDL" jdbcType="FLOAT"/>
+        <id column="tcws" property="TCWS" jdbcType="INTEGER"/>
+        <id column="remark" property="Remark" jdbcType="VARCHAR"/>
+        <id column="ssgh" property="SSGH" jdbcType="INTEGER"/>
+        <id column="dkmj" property="DKMJ" jdbcType="FLOAT"/>
+        <id column="jdccr" property="JDCCR" jdbcType="VARCHAR"/>
+        <id column="jsdt" property="JSDT" jdbcType="VARCHAR"/>
+        <id column="geom_json" property="geometry" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!-- 查询所有   -->

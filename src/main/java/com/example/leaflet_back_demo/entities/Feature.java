@@ -1,6 +1,7 @@
 package com.example.leaflet_back_demo.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,24 +15,44 @@ import lombok.extern.slf4j.Slf4j;
 @NoArgsConstructor
 public class Feature {
     private Integer gid;        //数据库id
-    private Integer featureid;  //要素id
-    private String dkbh;        //地块编号
-    private Float ydmj;         //用地面积
-    private String ghyt;        //规划用途
-    private String ytdm;        //用途代码
-    private String hhbl;        //混合比例
-    private String jfbh;        //什么编号？
-    private String ptss;        //配套设施
-    private Float jzgd;         //建筑高度
-    private Float rjl;          //容积率
-    private Float jzmj;         //建筑面积
-    private Float jzmd;         //建筑密度
-    private Float ldl;          //绿地率
-    private Integer tcws;       //停车位数
-    private String remark;      //备注
-    private Integer ssgh;       //所属规划
-    private Float dkmj;         //地块面积
-    private String jdccr;       //朝向？
-    private String jsdt;        //建设状态？
-    private String geom;        //geometry
+    @JsonProperty("FeatureID")
+    private Integer FeatureID;  //要素id
+    @JsonProperty("DKBH")
+    private String DKBH;        //地块编号
+    @JsonProperty("YDMJ")
+    private Float YDMJ;         //用地面积
+    @JsonProperty("GHYT")
+    private String GHYT;        //规划用途
+    @JsonProperty("YTDM")
+    private String YTDM;        //用途代码
+    @JsonProperty("HHBL")
+    private String HHBL;        //混合比例
+    @JsonProperty("JFBH")
+    private String JFBH;        //什么编号？
+    @JsonProperty("PTSS")
+    private String PTSS;        //配套设施
+    @JsonProperty("JZGD")
+    private Float JZGD;         //建筑高度
+    @JsonProperty("RJL")
+    private Float RJL;          //容积率
+    @JsonProperty("JZMJ")
+    private Float JZMJ;         //建筑面积
+    @JsonProperty("JZMD")
+    private Float JZMD;         //建筑密度
+    @JsonProperty("LDL")
+    private Float LDL;          //绿地率
+    @JsonProperty("TCWS")
+    private Integer TCWS;       //停车位数
+    @JsonProperty("Remark")
+    private String Remark;      //备注
+    @JsonProperty("SSGH")
+    private Integer SSGH;       //所属规划
+    @JsonProperty("DKMJ")
+    private Float DKMJ;         //地块面积
+    @JsonProperty("JDCCR")
+    private String JDCCR;       //朝向？
+    @JsonProperty("JSDT")
+    private String JSDT;        //建设状态？
+    @JsonProperty("geometry")
+    private String geometry;        //geometry
 }
