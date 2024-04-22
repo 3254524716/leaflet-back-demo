@@ -7,6 +7,10 @@ import java.util.ArrayList;
 
 @Mapper
 public interface FeatureDao {
-    public ArrayList<Feature> getFeaturesByField(String column, String value);
+    ArrayList<Feature> getFeaturesByField(String column, String value);
 //    public Feature getFeaturesByField(String column, String value);
+
+    String convertGeoJSONToWKT(String GeojsonPolygon);
+
+    ArrayList<Feature> getFeatureBySpace(String polygon);
 }

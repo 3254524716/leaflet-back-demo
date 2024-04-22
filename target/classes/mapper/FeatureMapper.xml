@@ -44,6 +44,18 @@
 
     <!-- 查询所有   -->
     <select id="getFeaturesByField" resultMap="BaseResultMap">
-        select * ,ST_AsGeoJSON(geom)::json AS geom_json from landuse where ${column} LIKE CONCAT('%', #{value}, '%')
+        select * ,ST_AsGeoJSON(geom)::json AS geom_json from landuse where ${column} LIKE CONCAT('%', upper(#{value}),
+        '%')
+    </select>
+
+    <!-- 将空间查询参数 转为wkt  返回字段名wkt parameterType="String" -->
+    <select id="convertGeoJSONToWKT" parameterType="string"  resultType="string">
+        SELECT ST_AsText(ST_GeomFromGeoJSON(#{polygon})) AS wkt;
+    </select>
+
+    <!-- 将wkt字符串作为参数 查询相交要素   -->
+    <select id="getFeatureBySpace" resultMap="BaseResultMap">
+        select * ,ST_AsGeoJSON(geom)::json AS geom_json from landuse where
+        ST_Intersects((#{polygon})::geometry,geom::geometry)
     </select>
 </mapper>

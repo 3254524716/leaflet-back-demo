@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 public interface FeatureService {
 
-    public ArrayList<Feature> getFeaturesByField(String column, String value);
-
+    ArrayList<Feature> getFeaturesByField(String column, String value);
+//    String convertGeoJSONToWKT(String GeojsonPolygon);
+    ArrayList<Feature> getFeatureBySpace(String polygon);
 }
