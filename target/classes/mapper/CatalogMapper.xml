@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.leaflet_back_demo.dao.CatalogDao">
+    <!--  插入   -->
+<!--    <insert id="batchImportPayInfo" parameterType="java.util.List">-->
+<!--        insert into payrollaccount values-->
+<!--        <foreach item="item" collection="list" separator=",">-->
+<!--            (-->
+<!--            #{item.name},-->
+<!--            #{item.id},-->
+<!--            #{item.date},-->
+<!--            #{item.attendance},-->
+<!--            #{item.rest},-->
+<!--            #{item.overtime},-->
+<!--            #{item.leavetime}-->
+<!--            )-->
+<!--        </foreach>-->
+<!--    </insert>-->
+
+    <!-- 映射  -->
+    <resultMap id="BaseResultMap" type="com.example.leaflet_back_demo.entities.Catalog">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <id column="name" property="name" jdbcType="VARCHAR"/>
+        <id column="pid" property="pid" jdbcType="INTEGER"/>
+        <id column="level" property="level" jdbcType="INTEGER"/>
+        <id column="count" property="count" jdbcType="INTEGER"/>
+        <id column="remark" property="remark" jdbcType="VARCHAR"/>
+        <id column="picture" property="picture" jdbcType="VARCHAR"/>
+        <id column="pictureUrl" property="pictureUrl" jdbcType="VARCHAR"/>
+<!--        <id column="children" property="children" jdbcType="VARCHAR"/>-->
+    </resultMap>
+
+    <!-- 查询所有   -->
+    <select id="getCatalogsByPid" resultMap="BaseResultMap">
+        select *  from catalog where pid = #{pid}
+    </select>
+
+<!--    &lt;!&ndash; 将空间查询参数 转为wkt  返回字段名wkt parameterType="String" &ndash;&gt;-->
+<!--    <select id="convertGeoJSONToWKT" parameterType="string"  resultType="string">-->
+<!--        SELECT ST_AsText(ST_GeomFromGeoJSON(#{polygon})) AS wkt;-->
+<!--    </select>-->
+
+<!--    &lt;!&ndash; 将wkt字符串作为参数 查询相交要素   &ndash;&gt;-->
+<!--    <select id="getFeatureBySpace" resultMap="BaseResultMap">-->
+<!--        select * ,ST_AsGeoJSON(geom)::json AS geom_json from landuse where-->
+<!--        ST_Intersects((#{polygon})::geometry,geom::geometry)-->
+<!--    </select>-->
+</mapper>

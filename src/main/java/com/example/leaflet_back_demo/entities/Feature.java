@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 
-//要素类 用来解决查询等问题
+//要素类 用来解决要素相关查询等问题
 @Slf4j
 @Data
 @AllArgsConstructor
