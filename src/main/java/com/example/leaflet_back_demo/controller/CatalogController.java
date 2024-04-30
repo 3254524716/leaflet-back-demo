@@ -1,15 +1,14 @@
 package com.example.leaflet_back_demo.controller;
 
-import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.example.leaflet_back_demo.entities.Catalog;
 import com.example.leaflet_back_demo.entities.CommonResult;
+import com.example.leaflet_back_demo.entities.Layer;
 import com.example.leaflet_back_demo.service.CatalogService;
+import com.example.leaflet_back_demo.service.LayerService;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Resource;
@@ -21,14 +20,21 @@ import java.util.ArrayList;
 public class CatalogController {
     @Resource
     private CatalogService catalogService;
+    @Resource
+    private LayerService layerService;
 
     @Value("${server.port}")
     private String serverPort;
     //查询目录
     @GetMapping(value = "/catalog/tree")
-    public CommonResult getCatalogTree () {
+    public CommonResult getCatalogTree (@RequestParam(required = false) Integer level) {
         //第一级目录 顶层目录
-        ArrayList<Catalog> catalogData = getCatalog(0);
+        ArrayList<Catalog> catalogData = new ArrayList<Catalog>();
+        if(level==null){
+            catalogData = getCatalog(0,(a) -> catalogService.getCatalog(0));
+        }else{
+            catalogData = getCatalog(level,(a) -> catalogService.getLevelCatalog(a));
+        }
 
         log.info("****查询结果: " + catalogData);
 
@@ -37,34 +43,49 @@ public class CatalogController {
         } else {
             return new CommonResult(444, "没有记录" , null);
         }
-
     }
 
+
     //递归方法
-    public ArrayList<Catalog> getCatalog(Integer pid){
-        ArrayList<Catalog> catalogArrayList = catalogService.getCatalog(pid);
+    public ArrayList<Catalog> getCatalog(Integer pidOrLevel,GetCatalog catalogFunction){
+        ArrayList<Catalog> catalogArrayList = catalogFunction.getCatalog(pidOrLevel);
+//        ArrayList<Catalog> catalogArrayList = catalogService.getCatalog(pid);
         JSONObject catalogCurrent = new JSONObject();
+        ArrayList<Catalog>  arrayListCatalog = new ArrayList<Catalog>();
         if(catalogArrayList.size()!=0){
             for (Catalog catalog:catalogArrayList) {
                 catalogCurrent = JSONObject.from(catalog);
-                ArrayList<Catalog> childrenCatalogArray = getCatalog(catalog.getId());
-                JSONArray childrenCatalog = JSONArray.from(childrenCatalogArray);
-                catalogCurrent.put("children", childrenCatalog);
+                ArrayList<Catalog> childrenCatalogArray = getCatalog(catalog.getId(), (a) -> catalogService.getCatalog(a));
+                JSONArray childrenCatalog = JSONArray.from(childrenCatalogArray) ;
+                ArrayList<Layer>  layers = new ArrayList<Layer>();
+                System.out.println("childrenCatalog.size():"+childrenCatalog.size());
+                if(childrenCatalog.size()==0){
+                    System.out.println("catalog.getId():"+catalog.getId());
+                    layers = layerService.getLayersByCatalogId(catalog.getId());
+                    System.out.println("layers:"+layers);
+                    catalogCurrent.put("children", layers);
+                }else{
+                    catalogCurrent.put("children", childrenCatalog);
+                }
+                Catalog currentCatalog = new Catalog();
+                currentCatalog.setId(catalogCurrent.getInteger("id"));
+                currentCatalog.setName(catalogCurrent.getString("name"));
+                currentCatalog.setPid(catalogCurrent.getInteger("pid"));
+                currentCatalog.setLevel(catalogCurrent.getInteger("level"));
+                currentCatalog.setCount(catalogCurrent.getInteger("count"));
+                currentCatalog.setRemark(catalogCurrent.getString("remark"));
+                currentCatalog.setFolder(catalogCurrent.getString("folder"));
+                currentCatalog.setPicture(catalogCurrent.getString("picture"));
+                currentCatalog.setPictureUrl(catalogCurrent.getString("pictureUrl"));
+                currentCatalog.setChildren((ArrayList<Catalog>) catalogCurrent.get("children"));
+                arrayListCatalog.add(currentCatalog);
             }
         }
         //做结果映射
-        Catalog catalog = new Catalog();
-        catalog.setId(catalogCurrent.getInteger("id"));
-        catalog.setName(catalogCurrent.getString("name"));
-        catalog.setPid(catalogCurrent.getInteger("pid"));
-        catalog.setLevel(catalogCurrent.getInteger("level"));
-        catalog.setCount(catalogCurrent.getInteger("count"));
-        catalog.setRemark(catalogCurrent.getString("remark"));
-        catalog.setPicture(catalogCurrent.getString("picture"));
-        catalog.setPictureUrl(catalogCurrent.getString("pictureUrl"));
-        catalog.setChildren((ArrayList<Catalog>) catalogCurrent.get("children"));
-        ArrayList<Catalog>  arrayListCatalog = new ArrayList<Catalog>();
-        arrayListCatalog.add(catalog);
         return arrayListCatalog;
+    }
+
+    interface GetCatalog {
+        ArrayList<Catalog> getCatalog(Integer pidOrLevel);
     }
 }

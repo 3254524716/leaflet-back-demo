@@ -26,6 +26,7 @@
         <id column="count" property="count" jdbcType="INTEGER"/>
         <id column="remark" property="remark" jdbcType="VARCHAR"/>
         <id column="picture" property="picture" jdbcType="VARCHAR"/>
+        <id column="folder" property="folder" jdbcType="VARCHAR" />
         <id column="pictureUrl" property="pictureUrl" jdbcType="VARCHAR"/>
 <!--        <id column="children" property="children" jdbcType="VARCHAR"/>-->
     </resultMap>
@@ -33,6 +34,10 @@
     <!-- 查询所有   -->
     <select id="getCatalogsByPid" resultMap="BaseResultMap">
         select *  from catalog where pid = #{pid}
+    </select>
+
+    <select id="getCatalogsByLevel" resultMap="BaseResultMap">
+        select *  from catalog where level = #{level}
     </select>
 
 <!--    &lt;!&ndash; 将空间查询参数 转为wkt  返回字段名wkt parameterType="String" &ndash;&gt;-->

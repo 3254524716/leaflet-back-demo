@@ -26,6 +26,8 @@ public class Catalog {
 
     private String remark;        //当前目录 描述
 
+    private String folder;        // 是否是 文件夹
+
     private String picture;        //当前目录 图像 (留用)
     @JsonProperty("pictureUrl")
     private String pictureUrl;      //当前目录 图像地址 (留用)

@@ -9,4 +9,5 @@ import java.util.ArrayList;
 public interface CatalogService {
     //这个服务不需要参数 调用dao时给定参数 pid=0
     ArrayList<Catalog> getCatalog(Integer pid);
+    ArrayList<Catalog> getLevelCatalog(Integer pid);
 }
