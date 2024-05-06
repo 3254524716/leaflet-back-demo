@@ -22,6 +22,9 @@ public class Layer {
     private String crs;         //该图层坐标系
     @JsonProperty("dataCatagory")
     private String dataCatagory;
+    private String type;        //图层数据类型
+    @JsonProperty("geomType")
+    private String geomType; //该图层所在 图层目录
     @JsonProperty("catalogId")
     private Integer[] catalogId; //该图层所在 图层目录
 }

@@ -58,11 +58,8 @@ public class CatalogController {
                 ArrayList<Catalog> childrenCatalogArray = getCatalog(catalog.getId(), (a) -> catalogService.getCatalog(a));
                 JSONArray childrenCatalog = JSONArray.from(childrenCatalogArray) ;
                 ArrayList<Layer>  layers = new ArrayList<Layer>();
-                System.out.println("childrenCatalog.size():"+childrenCatalog.size());
                 if(childrenCatalog.size()==0){
-                    System.out.println("catalog.getId():"+catalog.getId());
                     layers = layerService.getLayersByCatalogId(catalog.getId());
-                    System.out.println("layers:"+layers);
                     catalogCurrent.put("children", layers);
                 }else{
                     catalogCurrent.put("children", childrenCatalog);
