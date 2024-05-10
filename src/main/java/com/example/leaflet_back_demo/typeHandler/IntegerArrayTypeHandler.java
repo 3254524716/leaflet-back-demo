@@ -7,6 +7,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * 映射类型处理
+ * Integer[]
+ */
 
 public class IntegerArrayTypeHandler extends BaseTypeHandler<Integer[]> {
     @Override

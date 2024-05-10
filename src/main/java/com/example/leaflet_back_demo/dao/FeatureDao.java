@@ -10,6 +10,8 @@ public interface FeatureDao {
     ArrayList<Feature> getFeaturesByField(String column, String value);
 //    public Feature getFeaturesByField(String column, String value);
 
+    ArrayList<Feature> getFeaturesByThreeField(String layer, String column, String value);
+
     String convertGeoJSONToWKT(String GeojsonPolygon);
 
     ArrayList<Feature> getFeatureBySpace(String polygon);

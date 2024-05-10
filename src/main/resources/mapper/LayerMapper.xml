@@ -39,6 +39,10 @@
         SELECT * FROM layers WHERE #{catalogId} IN (SELECT UNNEST("catalogId"));
     </select>
 
+    <select id="getLayerByLayerId" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT * FROM layers WHERE id = ${layerId};
+    </select>
+
     <!--    &lt;!&ndash; 将空间查询参数 转为wkt  返回字段名wkt parameterType="String" &ndash;&gt;-->
     <!--    <select id="convertGeoJSONToWKT" parameterType="string"  resultType="string">-->
     <!--        SELECT ST_AsText(ST_GeomFromGeoJSON(#{polygon})) AS wkt;-->
