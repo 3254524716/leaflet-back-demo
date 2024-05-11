@@ -25,4 +25,9 @@ public class FeatureServiceImpl implements FeatureService {
         String wktPolygon = featureDao.convertGeoJSONToWKT(polygon);
         return featureDao.getFeatureBySpace(wktPolygon);
     }
+
+    public ArrayList<Feature> getFeatureBySpaceAndLayer(String layer, String polygon){
+        String wktPolygon = featureDao.convertGeoJSONToWKT(polygon);
+        return featureDao.getFeatureBySpaceAndLayer(layer,wktPolygon);
+    }
 }

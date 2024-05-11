@@ -10,7 +10,7 @@ import java.util.UUID;
 
 /**
  * 映射类型处理
- * UUID
+ * 映射为 UUID
  */
 public class UUIDTypeHandler extends BaseTypeHandler<UUID> {
     @Override
@@ -21,7 +21,7 @@ public class UUIDTypeHandler extends BaseTypeHandler<UUID> {
     @Override
     public UUID getNullableResult(ResultSet rs, String columnName) throws SQLException {
         String uuidStr = rs.getString(columnName);
-        return uuidStr != null ? UUID.fromString(uuidStr) : null;
+        return uuidStr != null ?  UUID.fromString(uuidStr) : null;
     }
 
     @Override

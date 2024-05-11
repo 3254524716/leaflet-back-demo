@@ -12,4 +12,6 @@ public interface FeatureService {
     ArrayList<Feature> getFeaturesByThreeField(String layer, String column, String value);
 //    String convertGeoJSONToWKT(String GeojsonPolygon);
     ArrayList<Feature> getFeatureBySpace(String polygon);
+
+    ArrayList<Feature> getFeatureBySpaceAndLayer(String layer, String polygon);
 }

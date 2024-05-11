@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -23,6 +25,7 @@ public class Layer {
     @JsonProperty("dataCatagory")
     private String dataCatagory;
     private String type;        //图层数据类型
+    private Object columns;
     @JsonProperty("geomType")
     private String geomType; //该图层所在 图层目录
     @JsonProperty("catalogId")

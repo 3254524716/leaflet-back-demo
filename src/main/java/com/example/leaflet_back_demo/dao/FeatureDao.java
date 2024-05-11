@@ -15,4 +15,5 @@ public interface FeatureDao {
     String convertGeoJSONToWKT(String GeojsonPolygon);
 
     ArrayList<Feature> getFeatureBySpace(String polygon);
+    ArrayList<Feature> getFeatureBySpaceAndLayer(String layer, String polygon);
 }

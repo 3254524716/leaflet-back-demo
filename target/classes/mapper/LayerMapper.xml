@@ -28,6 +28,8 @@
         <id column="crs" property="crs" jdbcType="VARCHAR"/>
         <id column="dataCatagory" property="dataCatagory" jdbcType="VARCHAR"/>
         <id column="type" property="type" jdbcType="VARCHAR"/>
+<!--         typeHandler="com.example.leaflet_back_demo.typeHandler.JsonArrayTypeHandler"-->
+        <id column="columns" property="columns"  typeHandler="com.example.leaflet_back_demo.typeHandler.JsonArrayTypeHandler"/>
         <id column="geomType" property="geomType" jdbcType="VARCHAR"/>
         <id column="catalogId" property="catalogId" typeHandler="com.example.leaflet_back_demo.typeHandler.IntegerArrayTypeHandler"/>
         <!--     column catalogId 是一个存储 catalogId 的 ArrayList 集合” -->
@@ -37,6 +39,10 @@
     <!-- catalogId 列包含catalogId 的记录    -->
     <select id="getLayersByCatalogId" resultMap="BaseResultMap">
         SELECT * FROM layers WHERE #{catalogId} IN (SELECT UNNEST("catalogId"));
+    </select>
+
+    <select id="getLayerByLayerId" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT * FROM layers WHERE id = '${layerId}';
     </select>
 
     <!--    &lt;!&ndash; 将空间查询参数 转为wkt  返回字段名wkt parameterType="String" &ndash;&gt;-->

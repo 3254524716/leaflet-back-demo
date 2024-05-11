@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 /**
  * 映射类型处理
- * Integer[]
+ * 映射为 Integer[]
  */
 
 public class IntegerArrayTypeHandler extends BaseTypeHandler<Integer[]> {

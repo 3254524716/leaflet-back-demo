@@ -1,5 +1,8 @@
 package com.example.leaflet_back_demo.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
 import com.example.leaflet_back_demo.entities.CommonResult;
 import com.example.leaflet_back_demo.entities.Feature;
 import com.example.leaflet_back_demo.entities.Layer;
@@ -11,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.UUID;
+
 
 
 @Slf4j
@@ -41,13 +44,57 @@ public class FeatureController {
 //    }
 
     //空间查询
+//    @PostMapping(value = "/feature/getfeaturesbyspace")
+//    public CommonResult getFeatureBySpace(@RequestBody String polygon) {
+//        System.out.println("看看请求参数，" + polygon);
+//        ArrayList<Feature> featureList = featureService.getFeatureBySpace(polygon);
+//        log.info("****查询结果: " + featureList);
+//        if (featureList != null) {
+//            return new CommonResult(200, "查询成功,serverPort:" + serverPort, featureList);
+//        } else {
+//            return new CommonResult(444, "没有记录", null);
+//        }
+//    }
+
     @PostMapping(value = "/feature/getfeaturesbyspace")
-    public CommonResult getFeatureBySpace(@RequestBody String polygon) {
-        System.out.println("看看请求参数，" + polygon);
-        ArrayList<Feature> featureList = featureService.getFeatureBySpace(polygon);
-        log.info("****查询结果: " + featureList);
-        if (featureList != null) {
-            return new CommonResult(200, "查询成功,serverPort:" + serverPort, featureList);
+    public CommonResult getFeatureBySpace(@RequestBody JSONObject requestData) {
+        System.out.println("requestData "+requestData);
+
+        String polygon = requestData.getString("polygon");
+        JSONArray layerIds = new JSONArray();
+        if(requestData.getJSONArray("layerIds")!=null){
+            layerIds = requestData.getJSONArray("layerIds");
+        }
+        JSONArray resultArray = new JSONArray();
+        if (!layerIds.isEmpty()) {
+            for ( Object layerId : layerIds) {
+                System.out.println("Object layerId  "+ layerId);
+                Layer layerData = new Layer();
+                layerData = layerService.getLayerByLayerId(layerId.toString());
+                //用来查要素表的 图层名
+                String layer = layerData.getLayers() == null ? null : layerData.getLayers().split(":")[1];
+                System.out.println(layer + "   layerNamelayerNamelayerName");
+                if(layer!=null){
+                    JSONObject layerInfo = new JSONObject();
+                    layerInfo.put("layerName", layerData.getName());
+                    layerInfo.put("id", layerId);
+                    ArrayList<Feature> featureList;
+                    try {
+                         featureList = featureService.getFeatureBySpaceAndLayer(layer, polygon);
+                    } catch (Exception e) {
+                        e.printStackTrace(); // 打印异常信息
+                        featureList = new ArrayList<Feature>();
+                    }
+                    JSONObject result = new JSONObject();
+                    result.put("data", featureList);
+                    result.put("layer", layerInfo);
+                    resultArray.add(result);
+                }
+            }
+        }
+        log.info("****查询结果: " + resultArray);
+        if (resultArray != null) {
+            return new CommonResult(200, "查询成功,serverPort:" + serverPort, resultArray);
         } else {
             return new CommonResult(444, "没有记录", null);
         }
@@ -62,10 +109,10 @@ public class FeatureController {
         ArrayList<Feature> featureList = new ArrayList<Feature>();
         if (layerId != null) {
             Layer layerData = new Layer();
-            layerData = layerService.getLayerByLayerId( layerId);
+            layerData = layerService.getLayerByLayerId(layerId);
 
             String layer = layerData.getLayers() == null ? null : layerData.getLayers().split(":")[1];
-            System.out.println(layer+"   layerNamelayerNamelayerName");
+            System.out.println(layer + "   layerNamelayerNamelayerName");
             // 应该返回list
             featureList = featureService.getFeaturesByThreeField(layer, column, value);
         } else {
