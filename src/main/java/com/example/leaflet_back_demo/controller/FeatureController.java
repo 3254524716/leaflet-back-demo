@@ -16,7 +16,6 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 
 
-
 @Slf4j
 @RestController
 @CrossOrigin(origins = {"http://localhost:8089/", "http://192.168.0.122:8089"})//跨域设置
@@ -58,29 +57,30 @@ public class FeatureController {
 
     @PostMapping(value = "/feature/getfeaturesbyspace")
     public CommonResult getFeatureBySpace(@RequestBody JSONObject requestData) {
-        System.out.println("requestData "+requestData);
+        System.out.println("requestData " + requestData);
 
         String polygon = requestData.getString("polygon");
         JSONArray layerIds = new JSONArray();
-        if(requestData.getJSONArray("layerIds")!=null){
+        if (requestData.getJSONArray("layerIds") != null) {
             layerIds = requestData.getJSONArray("layerIds");
         }
         JSONArray resultArray = new JSONArray();
         if (!layerIds.isEmpty()) {
-            for ( Object layerId : layerIds) {
-                System.out.println("Object layerId  "+ layerId);
+            for (Object layerId : layerIds) {
+                System.out.println("Object layerId  " + layerId);
                 Layer layerData = new Layer();
                 layerData = layerService.getLayerByLayerId(layerId.toString());
                 //用来查要素表的 图层名
                 String layer = layerData.getLayers() == null ? null : layerData.getLayers().split(":")[1];
                 System.out.println(layer + "   layerNamelayerNamelayerName");
-                if(layer!=null){
+
+                if (layer != null) {
                     JSONObject layerInfo = new JSONObject();
                     layerInfo.put("layerName", layerData.getName());
                     layerInfo.put("id", layerId);
                     ArrayList<Feature> featureList;
                     try {
-                         featureList = featureService.getFeatureBySpaceAndLayer(layer, polygon);
+                        featureList = featureService.getFeatureBySpaceAndLayer(layer, polygon);
                     } catch (Exception e) {
                         e.printStackTrace(); // 打印异常信息
                         featureList = new ArrayList<Feature>();
@@ -88,12 +88,13 @@ public class FeatureController {
                     JSONObject result = new JSONObject();
                     result.put("data", featureList);
                     result.put("layer", layerInfo);
+                    result.put("count", featureList.size());
                     resultArray.add(result);
                 }
             }
         }
         log.info("****查询结果: " + resultArray);
-        if (resultArray != null) {
+        if (!resultArray.isEmpty()) {
             return new CommonResult(200, "查询成功,serverPort:" + serverPort, resultArray);
         } else {
             return new CommonResult(444, "没有记录", null);
@@ -107,22 +108,47 @@ public class FeatureController {
             @RequestParam("value") String value
     ) {
         ArrayList<Feature> featureList = new ArrayList<Feature>();
+        JSONArray resultArray = new JSONArray();
         if (layerId != null) {
             Layer layerData = new Layer();
             layerData = layerService.getLayerByLayerId(layerId);
-
             String layer = layerData.getLayers() == null ? null : layerData.getLayers().split(":")[1];
             System.out.println(layer + "   layerNamelayerNamelayerName");
             // 应该返回list
-            featureList = featureService.getFeaturesByThreeField(layer, column, value);
-        } else {
-            featureList = featureService.getFeaturesByField(column, value);
+//            featureList = featureService.getFeaturesByThreeField(layer, column, value);
+            JSONObject layerInfo = new JSONObject();
+            layerInfo.put("layerName", layerData.getName());
+            layerInfo.put("id", layerId);
+
+            if (layer != null) {
+                try {
+                    featureList = featureService.getFeaturesByThreeField(layer, column, value);
+                } catch (Exception e) {
+                    e.printStackTrace(); // 打印异常信息
+                    featureList = new ArrayList<Feature>();
+                }
+                JSONObject result = new JSONObject();
+                result.put("data", featureList);
+                result.put("layer", layerInfo);
+                result.put("count", featureList.size());
+                resultArray.add(result);
+            } else {
+                try {
+                    featureList = featureService.getFeaturesByField(column, value);
+                } catch (Exception e) {
+                    e.printStackTrace(); // 打印异常信息
+                    featureList = new ArrayList<Feature>();
+                }
+                JSONObject result = new JSONObject();
+                result.put("data", featureList);
+                result.put("layer", layerInfo);
+                result.put("count", featureList.size());
+                resultArray.add(result);
+            }
         }
-
-        log.info("****查询结果: " + featureList);
-
-        if (featureList != null) {
-            return new CommonResult(200, "查询成功,serverPort:" + serverPort, featureList);
+        log.info("****查询结果: " + resultArray);
+        if (!resultArray.isEmpty()) {
+            return new CommonResult(200, "查询成功,serverPort:" + serverPort, resultArray);
         } else {
             return new CommonResult(444, "没有记录", null);
         }
