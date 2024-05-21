@@ -1,9 +1,0 @@
-Manifest-Version: 1.0
-Created-By: IntelliJ IDEA
-Built-By: 32545
-Build-Jdk: version 1.8.0_281
-Implementation-Title: payrollAccounting
-Implementation-Version: 1.0-SNAPSHOT
-Implementation-Vendor-Id: com.example
-Main-Class: ${start-class}
-

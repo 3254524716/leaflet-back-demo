@@ -18,7 +18,11 @@ import java.util.ArrayList;
 
 @Slf4j
 @RestController
-@CrossOrigin(origins = {"http://localhost:8089/", "http://192.168.0.122:8089"})//跨域设置
+@CrossOrigin(origins = {"http://localhost:8089/",
+        "http://192.168.0.122:8089",
+        "http://192.168.0.122:8088",
+        "http://localhost:8088"},
+        allowCredentials = "true")//跨域设置
 public class FeatureController {
     @Resource
     private FeatureService featureService;

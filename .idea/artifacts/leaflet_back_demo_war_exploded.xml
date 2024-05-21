@@ -58,9 +58,6 @@
           <element id="library" level="project" name="Maven: org.mybatis:mybatis-spring:3.0.0" />
           <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-starter-web:2.7.10" />
           <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-starter-json:2.7.10" />
-          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.13.5" />
-          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.13.5" />
-          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.13.5" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.13.5" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.5" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.module:jackson-module-parameter-names:2.13.5" />
@@ -80,6 +77,9 @@
           <element id="library" level="project" name="Maven: org.apache.xmlbeans:xmlbeans:3.0.2" />
           <element id="library" level="project" name="Maven: org.apache.commons:commons-compress:1.18" />
           <element id="library" level="project" name="Maven: com.github.virtuald:curvesapi:1.05" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.13.5" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.13.5" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.13.5" />
         </element>
       </element>
       <element id="directory" name="META-INF">
