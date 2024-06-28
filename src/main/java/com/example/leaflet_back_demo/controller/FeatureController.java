@@ -16,6 +16,11 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 
 
+/**
+ * 要素查询
+ * 空间查询和属性插叙
+ * */
+
 @Slf4j
 @RestController
 @CrossOrigin(origins = {"http://localhost:8089/",

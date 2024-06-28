@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 
+/**
+ * 图层信息查询
+ * */
+
 @Slf4j
 @RestController
 @CrossOrigin(origins = {"http://localhost:8089/",

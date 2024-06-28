@@ -125,6 +125,25 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional> <!-- 可选 -->
+        </dependency>
+
+        <dependency>
+            <groupId>dev.galasa</groupId>
+            <artifactId>com.auth0.jwt</artifactId>
+            <version>3.8.1</version>
+        </dependency>
+        <!-- hutool  工具类 方便设置token过期时间等操作-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.8.9</version>
+        </dependency>
+
     </dependencies>
 
     <build>
