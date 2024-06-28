@@ -4,11 +4,11 @@ package com.example.leaflet_back_demo.interceptor;
 import com.example.leaflet_back_demo.utils.TokenUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.alibaba.fastjson.JSONObject;
 
+//应该是 请求的token验证
 @Component
 public class TokenInterceptor implements HandlerInterceptor {
 

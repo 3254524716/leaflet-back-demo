@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 
+
+// 配置 对请求携带的token进行验证
 @Configuration
 public class WebConfiguration implements WebMvcConfigurer {
 
