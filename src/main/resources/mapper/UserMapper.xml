@@ -1,73 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.leaflet_back_demo.dao.FeatureDao">
-    <!--  插入   -->
-    <insert id="batchImportPayInfo" parameterType="java.util.List">
-        insert into payrollaccount values
-        <foreach item="item" collection="list" separator=",">
-            (
-            #{item.name},
-            #{item.id},
-            #{item.date},
-            #{item.attendance},
-            #{item.rest},
-            #{item.overtime},
-            #{item.leavetime}
-            )
-        </foreach>
-    </insert>
+<mapper namespace="com.example.leaflet_back_demo.dao.UserDao">
 
-    <!-- 映射  -->
-    <resultMap id="BaseResultMap" type="com.example.leaflet_back_demo.entities.Feature">
-        <id column="gid" property="gid" jdbcType="INTEGER"/>
-        <id column="featureid" property="FeatureID" jdbcType="INTEGER"/>
-        <id column="dkbh" property="DKBH" jdbcType="VARCHAR"/>
-        <id column="ydmj" property="YDMJ" jdbcType="FLOAT"/>
-        <id column="ghyt" property="GHYT" jdbcType="VARCHAR"/>
-        <id column="ytdm" property="YTDM" jdbcType="VARCHAR"/>
-        <id column="hhbl" property="HHBL" jdbcType="VARCHAR"/>
-        <id column="jfbh" property="JFBH" jdbcType="VARCHAR"/>
-        <id column="ptss" property="PTSS" jdbcType="VARCHAR"/>
-        <id column="jzgd" property="JZGD" jdbcType="FLOAT"/>
-        <id column="rjl" property="RJL" jdbcType="FLOAT"/>
-        <id column="jzmj" property="JZMJ" jdbcType="FLOAT"/>
-        <id column="jzmd" property="JZMD" jdbcType="FLOAT"/>
-        <id column="ldl" property="LDL" jdbcType="FLOAT"/>
-        <id column="tcws" property="TCWS" jdbcType="INTEGER"/>
-        <id column="remark" property="Remark" jdbcType="VARCHAR"/>
-        <id column="ssgh" property="SSGH" jdbcType="INTEGER"/>
-        <id column="dkmj" property="DKMJ" jdbcType="FLOAT"/>
-        <id column="jdccr" property="JDCCR" jdbcType="VARCHAR"/>
-        <id column="jsdt" property="JSDT" jdbcType="VARCHAR"/>
-        <id column="geom_json" property="geometry" jdbcType="VARCHAR"/>
+    <!-- 映射到User  -->
+    <resultMap id="BaseResultMap" type="com.example.leaflet_back_demo.entities.User">
+        <id column="userid" property="userid" jdbcType="INTEGER"/>
+        <id column="username" property="username" jdbcType="VARCHAR"/>
+        <id column="loginid" property="loginid" jdbcType="VARCHAR"/>
+        <id column="password" property="password" jdbcType="VARCHAR"/>
+        <id column="sex" property="sex" jdbcType="VARCHAR"/>
+        <id column="departmentid" property="departmentid" jdbcType="INTEGER"/>
+        <id column="phone" property="phone" jdbcType="VARCHAR"/>
+        <id column="usertype" property="usertype" jdbcType="SMALLINT"/>
+        <id column="edittype" property="edittype" jdbcType="SMALLINT"/>
+        <id column="jointime" property="jointime" jdbcType="TIMESTAMP"/>
+        <id column="lastlogintime" property="lastlogintime" jdbcType="TIMESTAMP"/>
+        <id column="logincount" property="logincount" jdbcType="INTEGER"/>
+        <id column="extra1" property="extra1" jdbcType="VARCHAR"/>
+        <id column="extra2" property="extra2" jdbcType="VARCHAR"/>
+        <id column="activeflag" property="activeflag" jdbcType="BOOLEAN"/>
+        <id column="inuse" property="inuse" jdbcType="BOOLEAN"/>
     </resultMap>
 
-    <!-- 查询所有   -->
-    <select id="getFeaturesByField" resultMap="BaseResultMap">
-        select * ,ST_AsGeoJSON(geom)::json AS geom_json from landuse where ${column} LIKE CONCAT('%', upper(#{value}),
-        '%')
+    <!--  根据登录名查询 用户信息  -->
+    <select id="getUserByLoginId" resultMap="BaseResultMap">
+        select * from users where loginid = '${loginid}';
     </select>
 
-    <!-- 查询所有   -->
-    <select id="getFeaturesByThreeField" resultMap="BaseResultMap">
-        select * ,ST_AsGeoJSON(geom)::json AS geom_json from ${layer} where ${column} LIKE CONCAT('%', upper(#{value}),
-        '%')
+    <!--  根据userid查询 用户信息  -->
+    <select id="getUserByUserId" resultMap="BaseResultMap">
+        select * from users where userid = '${userid}';
     </select>
 
-    <!-- 将空间查询参数 转为wkt  返回字段名wkt parameterType="String" -->
-    <select id="convertGeoJSONToWKT" parameterType="string" resultType="string">
-        SELECT ST_AsText(ST_GeomFromGeoJSON(#{polygon})) AS wkt;
+    <!--  用户列表  -->
+    <select id="getUserList" resultMap="BaseResultMap">
+        SELECT * FROM users
+        ORDER BY userid
+        OFFSET #{offset}
+        LIMIT #{limit};
     </select>
 
-    <!-- 将wkt字符串作为参数 查询相交要素   -->
-    <select id="getFeatureBySpace" resultMap="BaseResultMap">
-        select * ,ST_AsGeoJSON(geom)::json AS geom_json from landuse where
-        ST_Intersects((#{polygon})::geometry,geom::geometry)
+    <!--  总记录数  -->
+    <select id="getUserCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM users;
     </select>
 
-    <!--  查询 指定图层范围内要素  -->
-    <select id="getFeatureBySpaceAndLayer" resultMap="BaseResultMap">
-        select * ,ST_AsGeoJSON(geom)::json AS geom_json from ${layer} where
-        ST_Intersects((#{polygon})::geometry,geom::geometry)
-    </select>
+    <!-- 添加用户 将userid返回     -->
+    <insert id="addUser" parameterType="com.example.leaflet_back_demo.entities.User">
+        INSERT INTO users (loginid, password, username, sex, departmentid, phone, usertype, edittype, jointime,
+        lastlogintime, logincount, extra1, extra2, activeflag, inuse)
+        VALUES (#{loginid}, #{password}, #{username}, #{sex}, #{departmentid}, #{phone}, #{usertype}, #{edittype},
+        #{jointime}, #{lastlogintime}, #{logincount}, #{extra1}, #{extra2}, #{activeflag}, #{inuse})
+        RETURNING userid
+    </insert>
+
+    <!--  更新 用户信息  -->
+    <update id="updateUser" parameterType="com.example.leaflet_back_demo.entities.User">
+        update users set
+        <set>
+            <if test="loginid != null">loginid = #{loginid},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="username != null">username = #{username},</if>
+            <if test="sex != null">sex = #{sex},</if>
+            <if test="departmentid != null">departmentid = #{departmentid},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="usertype != null">usertype = #{usertype},</if>
+            <if test="edittype != null">edittype = #{edittype},</if>
+            <if test="extra1 != null">extra1 = #{extra1},</if>
+            <if test="extra2 != null">extra2 = #{extra2},</if>
+            <if test="activeflag != null">activeflag = #{activeflag},</if>
+            <if test="inuse != null">inuse = #{inuse},</if>
+        </set>
+        where userid = #{userid}
+    </update>
+
+    <!--  删除用户   -->
+    <delete id="deleteUser">
+        delete from users where userid = #{userid}
+    </delete>
+
 </mapper>

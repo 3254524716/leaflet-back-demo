@@ -3,9 +3,23 @@ package com.example.leaflet_back_demo.dao;
 import com.example.leaflet_back_demo.entities.User;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface UserDao {
     // 根据用户名 或 id 查出用户信息
     // 或者直接用 用户名和密码 查询表格 判断有没有对用信息
-    User getUserByUserName(String layerId);
+    User getUserByLoginId(String loginid);
+
+    User getUserByUserId(Integer userid);
+
+    List<User> getUserList(Integer offset ,Integer limit);
+
+    Integer getUserCount();
+
+    Integer addUser(User userData);
+
+    String updateUser(User userData);
+
+    String deteleUser(Integer userid);
 }

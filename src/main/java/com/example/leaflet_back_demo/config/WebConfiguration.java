@@ -27,9 +27,15 @@ public class WebConfiguration implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowCredentials(true)
+//                允许的请求头
                 .allowedHeaders("*")
+//                允许的访问方式
                 .allowedMethods("*")
-                .allowedOrigins("*");
+//                允许的域名
+                .allowedOrigins("http://localhost:8089/",
+                        "http://192.168.0.122:8089",
+                        "http://192.168.0.122:8088",
+                        "http://localhost:8088");
     }
 
     @Override
@@ -43,10 +49,10 @@ public class WebConfiguration implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry){
         List<String> excludePath = new ArrayList<>();
         //排除拦截，除了注册登录(此时还没token)，其他都拦截
-        excludePath.add("/user/register");  //登录
-        excludePath.add("/user/login");     //注册
-        excludePath.add("/static/**");  //静态资源
-        excludePath.add("/assets/**");  //静态资源
+        excludePath.add("/captcha/**");     //验证码
+        excludePath.add("/login/**");       //注册
+        excludePath.add("/static/**");      //静态资源
+        excludePath.add("/assets/**");      //静态资源
 
         registry.addInterceptor(tokenInterceptor)
                 .addPathPatterns("/**")

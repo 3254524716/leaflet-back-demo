@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.leaflet_back_demo.dao.LayerDao">
-    <!--  插入   -->
+    <!--  批量插入   -->
     <!--    <insert id="batchImportPayInfo" parameterType="java.util.List">-->
     <!--        insert into payrollaccount values-->
     <!--        <foreach item="item" collection="list" separator=",">-->

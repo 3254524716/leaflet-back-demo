@@ -121,6 +121,7 @@
             <scope>test</scope>
         </dependency>
 
+        <!--  可以做序列化和反序列化      -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
